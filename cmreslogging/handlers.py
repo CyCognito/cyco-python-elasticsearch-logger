@@ -216,6 +216,7 @@ class CMRESHandler(logging.Handler):
             if self._client is None:
                 self._client = Elasticsearch(hosts=self.hosts,
                                              http_compress=True,
+                                             connections_per_node=2,
                                              verify_certs=self.verify_certs,
                                              serializer=self.serializer)
             return self._client
@@ -225,6 +226,7 @@ class CMRESHandler(logging.Handler):
                 return Elasticsearch(hosts=self.hosts,
                                      http_auth=self.auth_details,
                                      http_compress=True,
+                                     connections_per_node=2,
                                      verify_certs=self.verify_certs,
                                      serializer=self.serializer)
             return self._client
@@ -235,6 +237,7 @@ class CMRESHandler(logging.Handler):
             # For kerberos we return a new client each time to make sure the tokens are up to date
             return Elasticsearch(hosts=self.hosts,
                                  http_compress=True,
+                                 connections_per_node=2,
                                  verify_certs=self.verify_certs,
                                  http_auth=HTTPKerberosAuth(mutual_authentication=DISABLED),
                                  serializer=self.serializer)
@@ -248,6 +251,7 @@ class CMRESHandler(logging.Handler):
                     hosts=self.hosts,
                     http_auth=awsauth,
                     http_compress=True,
+                    connections_per_node=2,
                     verify_certs=True,
                     serializer=self.serializer
                 )
